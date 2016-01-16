@@ -16,7 +16,7 @@
 | environments.
 |
 */
-$config['base_url'] = 'http://localhost/learn/codeIgniter/';
+$config['base_url'] = '';
 
 /*
 |--------------------------------------------------------------------------
