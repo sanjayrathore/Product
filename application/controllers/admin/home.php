@@ -387,6 +387,22 @@
 		}
 		//======================================================
 		/**
+		* @function :  we used this function for disable user 
+		* @parametere : $name : 
+		* @parametere : s
+		*/
+		public function disable_user()
+		{
+			$id = $_POST['id'];
+
+		
+			 $this->load->model('disableuser_model');
+			 $result = $this->disableuser_model->disable_user($id);
+			 echo json_encode($result);
+			
+		}
+		//======================================================
+		/**
 		* @function :  we used this function for logout 
 		* @parametere : $name : 
 		* @parametere : s

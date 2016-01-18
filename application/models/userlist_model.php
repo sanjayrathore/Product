@@ -8,7 +8,7 @@
     		}
     	public function user_list()
     	{
-    			$this -> db -> select('id,name,email');
+    			$this -> db -> select('id,name,email,is_enabled');
       			$this -> db -> from('USERS');
       			$query = $this -> db -> get();
       			if($query -> num_rows() > 0)

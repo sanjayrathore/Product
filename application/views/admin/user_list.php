@@ -27,19 +27,43 @@
                                 </thead>
                                  <tbody>
                                     <?php 
+
                                         foreach ($results as $row)
-                                        {
+                                        {   
+                                            if ($row->is_enabled == 1)
+                                            {
+
+                                            
                                     ?>
-                                    <tr id="<?php echo $row->id;?>" class="odd gradeX">
-                                        <td><?php echo $row->name;?></td>
-                                        <td><?php echo $row->email?></td>
-                                        <td>
-                                            <a href="<?php echo site_url('admin/home/edit_user/'.$row->id);?>"  ><span class="glyphicon glyphicon-pencil"></a>
-                                            <a href="javascript:void(0)" id="<?php echo $row->id;?>" class="deleteuser" ><span class="glyphicon glyphicon-trash"></a>
-                                        </td>
-                                        
-                                    </tr>            
-                                    <?
+                                                <tr id="tr_<?php echo $row->id ;?>" class="odd gradeX">
+                                                    <td><?php echo $row->name;?></td>
+                                                    <td><?php echo $row->email?></td>
+                                                    <td>
+                                                        <a href="javascript:void(0)" class="disable_button" id="<?php echo $row->id;?>">
+                                                            <span id="en_<?php echo $row->id;?>"><img src="<?php echo base_url(); ?>assets/images/enable.png" ></span>
+                                                            <span name="enab_dis" id="dis_<?php echo $row->id;?>"><img src="<?php echo base_url(); ?>assets/images/disable.png" ></span>
+                                                        
+                                                         </a>
+                                                        <a href="<?php echo site_url('admin/home/edit_user/'.$row->id);?>"  ><i class="glyphicon glyphicon-pencil"></i></a>
+                                                        <a href="javascript:void(0)" id="<?php echo $row->id;?>" class="deleteuser" ><i class="glyphicon glyphicon-trash"></i></a>
+                                                    </td>
+                                                    
+                                                </tr>            
+                                    <?php
+                                            }
+                                            else
+                                            {
+                                    ?>          <tr id="tr_<?php echo $row->id ;?>" class="odd gradeX disable-color">
+                                                    <td><?php echo $row->name;?></td>
+                                                    <td><?php echo $row->email?></td>
+                                                    <td>
+                                                        <a href="javascript:void(0)" class="disable_button" id="<?php echo $row->id;?>"><span  name = "enab_dis" id="en_<?php echo $row->id;?>"><img src="<?php echo base_url(); ?>assets/images/enable.png" ></span><span id="dis_<?php echo $row->id;?>"><img src="<?php echo base_url(); ?>assets/images/disable.png" ></span></a>
+                                                        <a href="<?php echo site_url('admin/home/edit_user/'.$row->id);?>"  ><i class="glyphicon glyphicon-pencil"></i></a>
+                                                        <a href="javascript:void(0)" id="<?php echo $row->id;?>" class="deleteuser" ><i class="glyphicon glyphicon-trash"></i></a>
+                                                    </td>
+                                                </tr> 
+                                    <?php     
+                                            }
                                         }
                                     ?>
                                 </tbody>
@@ -51,5 +75,5 @@
         </div>
     </div>
 </div>
-    
+
 	

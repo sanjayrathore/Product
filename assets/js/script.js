@@ -189,4 +189,43 @@ $(document).ready(function(){
 		}
 		
     });
+    
+    $("[name='enab_dis']").hide();
+    
+    $(".disable_button").on("click",function(){
+    	var id = $(this).attr('id');
+
+
+    	$.ajax({
+		        type: "POST",
+		        url:"disable_user",
+		      	dataType: 'json',
+		      	data:'id='+id,
+		        success: function(response) {
+		        	var message = "false";
+		        	
+		        	if (response == 1) 
+		        	{
+		        		$("#tr_"+id).removeClass("disable-color");
+		        		$("#dis_"+id).hide();
+		        		$("#en_"+id).show();
+		        	}
+		        	if (response == 0) 
+		        	{
+		        		$("#tr_"+id).addClass("disable-color");
+		        		$("#en_"+id).hide();
+		        		$("#dis_"+id).show();
+		        	}
+		        	if (response == "false") 
+		        	{
+		        		alert("REcord not disabled");
+		        	}
+		        }
+		    });
+
+    	
+    		
+    		
+    	
+    });
 });

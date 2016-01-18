@@ -51,4 +51,16 @@ th
 	padding: 10px;
 }
 
-
+.primary-disabled
+{
+	background-color: red;
+}
+.disable-color
+{
+	color: #C0C0C0;
+	
+}
+.disable-background-image
+{
+	color:red;
+}
