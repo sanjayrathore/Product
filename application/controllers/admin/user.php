@@ -27,7 +27,7 @@
 				$this->form_validation->set_rules('username', 'UserName', 'trim|required');
 				$this->form_validation->set_rules('password', 'Password', 'trim|required');
 				
-				if ($this->form_validation->run() == FALSE)
+				if ( FALSE == $this->form_validation->run() )
 				{	
 					$data['errors'] = validation_errors();
 				}
@@ -127,7 +127,8 @@
 		*/
 
 		public function add_user()
-		{	if ( ! $this->session->userdata('username'))
+		{	
+			if ( ! $this->session->userdata('username'))
         	{
         		redirect('admin');
         	}
@@ -162,7 +163,8 @@
 					$this->form_validation->set_rules('email', 'Email', 'trim|required');
 					$this->form_validation->set_rules('password', 'Password', 'trim|required');
 					$this->form_validation->set_rules('username', 'UserName', 'trim|required');
-					if ($this->form_validation->run() == FALSE)
+					
+					if ( FALSE == $this->form_validation->run())
 					{	
 						$this->add_user();
 					}
@@ -184,7 +186,8 @@
 						  				'username' 	=> $username
 						  				);
 						$result 	=  $this->add_user_model->add_user($user_data);
-						if($result == TRUE)
+						
+						if( TRUE == $result )
 						{
 							redirect('admin/home/deshboard');
 						}
@@ -252,7 +255,8 @@
 					$this->form_validation->set_rules('email', 'Email', 'trim|required');
 					$this->form_validation->set_rules('password', 'Password', 'trim');
 					$this->form_validation->set_rules('username', 'UserName', 'trim|required');
-					if ($this->form_validation->run() == FALSE)
+					
+					if (FALSE == $this->form_validation->run())
 					{	
 						$this->add_user();
 					}
@@ -265,6 +269,7 @@
 						$email 		= $this->input->post('email');
 						$password 	= $this->input->post('password');
 						$username 	= $this->input->post('username');
+						
 						if($password == NULL || $password == "")
 						{
 							$user_data 	= array(
@@ -287,6 +292,7 @@
 						  				);
 						}
 						$result = $this->edit_process_model->edit_process($user_data);
+						
 						if(TRUE == $result )
 						{
 							redirect('admin/user/user_profile_process/'.$id);
@@ -345,6 +351,7 @@
 			$id = $_POST['id'];
 			$this->load->model('delete_user_model');
 			$result = $this->delete_user_model->delete_user($id);
+			
 			if ($result == 1) 
 			{
 				echo json_encode("success");

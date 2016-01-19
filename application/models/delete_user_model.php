@@ -14,6 +14,7 @@
 			// die;
 			$this->db->where('id', $id);
 			$result = $this->db->delete('USERS'); 
+			
 			if ($result == 1) 
 			{
 				return TRUE;	
