@@ -3,16 +3,16 @@
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
                 <li>
-                    <a href="<?php echo site_url("admin/home/desh_board");?>">Deshboard</a>
+                    <a href="<?php echo site_url("admin/home/deshboard");?>">Deshboard</a>
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-dashboard fa-fw"></i>Users</a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="<?php echo site_url("admin/home/user_list");?>">User List</a>
+                            <a href="<?php echo site_url("admin/user/user_list");?>">User List</a>
                         </li>
                         <li>
-                            <a href="<?php echo site_url("admin/home/add_user");?>">User Add</a>
+                            <a href="<?php echo site_url("admin/user/add_user");?>">User Add</a>
                         </li>
                     </ul>
                 </li>
