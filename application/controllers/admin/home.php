@@ -47,6 +47,7 @@
 		* @parametere : $name : 
 		* @parametere : s
 		*/
+		
 		public function deshboard()
 		{
 			if ( ! $this->session->userdata('username'))

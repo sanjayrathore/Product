@@ -21,8 +21,8 @@
    			{	
    				//$result=$query->result();
      			$data = $query->row();
-              //  print_r($query);
-               // // die;
+                //  print_r($query);
+                // die;
                 $result = array(
                 			'id'  =>$data->id,
                 			'name' =>$data->name, 
@@ -39,4 +39,3 @@
    			}
 		}
 	}
-?>

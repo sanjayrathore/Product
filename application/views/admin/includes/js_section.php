@@ -11,5 +11,7 @@
 <script type="text/javascript" src="<?php echo base_url("assets/lib/jquery-validation/additional-methods.min.js"); ?>"></script>
 		
 <script type="text/javascript" src="<?php echo base_url("assets/lib/sb.admin/dist/js/sb-admin-2.js"); ?>"></script>
-
+<script type="text/javascript">
+	var url = "<?php echo base_url('admin/user/user_table');?>";
+</script>
 <script type="text/javascript" src="<?php echo base_url("assets/js/script.js");?>"></script>

@@ -8,19 +8,18 @@
     		}
     	public function user_list()
     	{
-    			$this -> db -> select('id,name,email,is_enabled');
-      			$this -> db -> from('USERS');
-      			$query = $this -> db -> get();
+			$this -> db -> select('id,name,email,is_enabled');
+  			$this -> db -> from('USERS');
+  			$query = $this -> db -> get();
       			
             if($query -> num_rows() > 0)
-       			{	
-       				$result=$query->result();
-       				return  $result;
-       			}
-       			else
-       			{
-         			return false;
-       			}
+   			{	
+   				$result=$query->result();
+   				return  $result;
+   			}
+   			else
+   			{
+     			return false;
+   			}
     	}
     }
-?>

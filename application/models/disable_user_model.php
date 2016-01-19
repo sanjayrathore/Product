@@ -15,6 +15,7 @@
   			$query = $this -> db -> get();
   			$data = $query->row();
   			$status = $data->is_enabled;
+  			
   			if ($status == 1) 
   			{	
   				$is_enabled = 0;
@@ -28,8 +29,10 @@
   								);
 
   			}
+  			
   			$this -> db -> where('id', $id);
 			$result = $this -> db ->update('USERS',$user_data);
+			
 			if ($result == 1) 
 			{
 				return $is_enabled;	
@@ -40,4 +43,3 @@
 			}
 		}
 	}
-?>

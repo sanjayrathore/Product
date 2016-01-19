@@ -1,9 +1,30 @@
 $(document).ready(function(){
+
+	showtable();
+
+	function showtable()
+	{
+		$.ajax({
+		        type: "POST",
+		        url: url,
+		      
+		        success: function(response) {
+
+		        	$("#table-div").html(response);
+		        	$("[name='enab_dis']").hide();
+
+				}        	
+		});
+	}
+	//==========================================================
+	
 	$("#reg_reset").click(function(){
 		
 		$("#reg_form").trigger("reset");
 		
 	});
+
+	//==========================================================
 
 	$("#reg_form").validate
 	({
@@ -68,6 +89,9 @@ $(document).ready(function(){
 
 		}
 	});
+
+	//==========================================================
+
 	$("#edit_form").validate
 	({
 		rules:
@@ -131,6 +155,9 @@ $(document).ready(function(){
 
 		}
 	});
+
+	//==========================================================
+
 	$("#admin_loginform").validate
 	({ 
 		rules:
@@ -147,6 +174,8 @@ $(document).ready(function(){
 		}
 	});
 
+	//==========================================================
+
 	jQuery.validator.addMethod("numericpattern", function(value, element){
     return this.optional(element) || /^[0-1]+$/.test(value);
     	},
@@ -161,23 +190,33 @@ $(document).ready(function(){
     return this.optional(element) || /^[a-z]+$/i.test(value);
     	},
      "Letters only please"
-    );  
-    $(".deleteuser").on("click",function(){
-    	var id = $(this).attr('id');
+    );
+
+    //==========================================================
+
+    //$(".deleteuser").on("click",function(){
+
+	$(document).on("click", ".deleteuser", function(){
+
+    	//alert("gsdhgj");
+    	
+    	var id = $(this).data('id');
+    	var url = $(this).data('url');
     
-    	if(confirm("Record Deleted OR Not"))
+    	if( confirm("Record Deleted OR Not") )
     	{	
     		
 		   $.ajax({
 		        type: "POST",
-		        url:"delete_user",
+		        url: url,
 		      	dataType: 'json',
 		      	data:'id='+id,
+
 		        success: function(response) {
 		        	var message = "success";
 		        	if (response == message)
 		        	{
-		        		$('#'+id).hide();
+		        		$('#tr_'+id).hide();
 		        	}
 		        	else
 		        	{
@@ -189,21 +228,86 @@ $(document).ready(function(){
 		}
 		
     });
-    
+
+    //==========================================================
+
+   	var a;
+   	//var b;
+	var data;
+
+    $(document).on("click", "#nameId", function(){
+    	//alert("dgha");
+    	if (a == 1) {
+			a = 0;
+			data = "nameDESC";	
+		}
+		else
+		{
+			a = 1;
+			data = "nameASC";
+		}
+		$.ajax({
+			type: "POST",
+			url : "user_list_sorting",
+			dataType: 'html',
+			data: 'data='+data,
+			success:function(response){
+				//alert(response);
+
+				$("#userlisttable ").html(response);
+				$("[name='enab_dis']").hide();
+			}
+		});
+	});
+
+	//==========================================================
+
+	$(document).on("click", "#emailId", function(){
+    	
+    	//alert("dgha");
+    	
+    	if (a == 1) {
+			a = 0;
+			data = "emailDESC";	
+		}
+		else
+		{
+			a = 1;
+			data = "emailASC";
+		}
+		$.ajax({
+			type: "POST",
+			url : "user_list_sorting",
+			dataType: 'html',
+			data: 'data='+data,
+			success:function(response){
+				//alert(response);
+
+				$("#userlisttable").html(response);
+				$("[name='enab_dis']").hide();
+			}
+		});
+
+    });
+
+    //==========================================================
+
     $("[name='enab_dis']").hide();
-    
-    $(".disable_button").on("click",function(){
-    	var id = $(this).attr('id');
 
+    $(document).on("click", ".disable_button", function(){
+   			
+    	
+    	var id = $(this).data('id');
+    	var url = $(this).data('url');
 
-    	$.ajax({
+		$.ajax({
 		        type: "POST",
-		        url:"disable_user",
+		        url: url,
 		      	dataType: 'json',
 		      	data:'id='+id,
 		        success: function(response) {
 		        	var message = "false";
-		        	
+		        		
 		        	if (response == 1) 
 		        	{
 		        		$("#tr_"+id).removeClass("disable-color");
@@ -222,10 +326,6 @@ $(document).ready(function(){
 		        	}
 		        }
 		    });
-
-    	
-    		
-    		
-    	
     });
+
 });

@@ -25,4 +25,4 @@ class Edit_process_model extends CI_Model
 					return FALSE;
 				}
 		}
-}?>
+	}

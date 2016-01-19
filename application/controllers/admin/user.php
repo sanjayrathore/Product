@@ -10,6 +10,7 @@
 			$this->load->library('form_validation');
 			$this->load->library('session');		
 		}
+
 		//======================================================
 
 		/**
@@ -70,6 +71,7 @@
 			
 
 		}
+
 		//======================================================
 
 		/**
@@ -91,6 +93,7 @@
 				$this->user_profile_process($id);
 			}
 		}
+
 		//======================================================
 
 		/**
@@ -118,6 +121,7 @@
 				$this->load->view('admin/includes/footer');	
 			}
 		}
+
 		//======================================================
 		
 		/**
@@ -140,6 +144,7 @@
 				$this->load->view('admin/includes/footer');
 			}	
 		}
+
 		//======================================================
 
 		/**
@@ -206,6 +211,7 @@
 				}
 			}
 		}
+
 		//======================================================
 
 		/**
@@ -232,6 +238,7 @@
 				$this->load->view('admin/includes/footer');	
 			}
 		}
+
 		//======================================================
 
 		/**
@@ -312,6 +319,7 @@
 				
 			}
 		}
+
 		//======================================================
 
 		/**
@@ -328,15 +336,56 @@
         	}
         	else
         	{
-				$this->load->model('user_list_model');
-				$result = $this->user_list_model->user_list();
-				$data['results'] = $result;
+				
 				$this->load->view('admin/includes/header');
 				$this->load->view('admin/includes/sidebar_list');
-				$this->load->view('admin/user/user_list',$data);	
+				$this->load->view('admin/user/user_list');	
 				$this->load->view('admin/includes/footer');
 			}
 		}
+
+		//======================================================
+		
+		/**
+		* @function :  we used this function for user list table
+		* @parametere : $name : 
+		* @parametere : s
+		*/
+
+		public function user_table()
+		{
+				$this->load->model('user_list_model');
+				$result = $this->user_list_model->user_list();
+				$data['results'] = $result;
+				echo $this->load->view('admin/user/user_table', $data, true);
+				die;
+				//$this->load->view('admin/includes/footer');
+
+		}
+
+
+		//======================================================
+
+		/**
+		* @function :  we used this function for sorting the user list
+		* @parametere : $name : 
+		* @parametere : s
+		*/
+
+		public function user_list_sorting()
+		{
+			$sortby = $_POST['data'];
+			$this->load->model('user_list_sorting_model');
+			$result = $this->user_list_sorting_model->user_sorting($sortby);
+			$data['results'] = $result;
+			//echo $data;
+			//$this->load->view('admin/includes/header');
+			//$this->load->view('admin/includes/sidebar_list');
+			$this->load->view('admin/user/user_table',$data);	
+			//$this->load->view('admin/includes/footer');
+
+		}
+
 		//======================================================
 
 		/**
@@ -362,6 +411,7 @@
 			}
 			
 		}
+
 		//======================================================
 
 		/**
@@ -380,6 +430,7 @@
 			 echo json_encode($result);
 			
 		}
+		
 		//======================================================
 
 		/**
