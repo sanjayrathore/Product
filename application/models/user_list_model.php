@@ -3,9 +3,12 @@
     class User_list_model extends CI_Model
     {
     	public function __construct() 
-    		{
+    	{
     			parent::__construct();
-    		}
+    	}
+        
+        //======================================================
+
     	public function user_list()
     	{
 			$this -> db -> select('id,name,email,is_enabled');

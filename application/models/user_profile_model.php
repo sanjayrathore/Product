@@ -2,7 +2,7 @@
 	/**
 	* 
 	*/
-	class Edit_model extends CI_Model
+	class User_profile_model extends CI_Model
 	{
 		
 		public function __construct() 
@@ -11,8 +11,8 @@
 		}
 
         //======================================================
-        
-		public function edit_user($id)
+		
+        public function user_profile($id)
 		{
 			$this -> db -> select('id,name, user_type, email, username');
   			$this -> db -> from('USERS');
@@ -20,19 +20,18 @@
   			$query = $this -> db -> get();
   			//print_r($this->db->last_query());
   			//die;
-            
   			if($query -> num_rows() > 0)
    			{	
-   				
+   				//$result=$query->result();
      			$data = $query->row();
-                
-                $result = array(
-                			'id'  =>$data->id,
-                			'name' =>$data->name, 
-                			'user_type'=>$data->user_type,
-                			'email' => $data->email,
-                			'username'=>$data->username
-                			);
+              
+                    $result = array(
+                    			'id'  =>$data->id,
+                    			'name' =>$data->name, 
+                    			'user_type'=>$data->user_type,
+                    			'email' => $data->email,
+                    			'username'=>$data->username
+                    			);
      			return  $result;
                 
    			}
@@ -42,3 +41,4 @@
    			}
 		}
 	}
+

@@ -8,10 +8,11 @@
 		{
 				parent::__construct();
 		}
+		//======================================================
+
 		public function delete_user($id)
 		{
-			// echo $id;
-			// die;
+			
 			$this->db->where('id', $id);
 			$result = $this->db->delete('USERS'); 
 			

@@ -111,8 +111,8 @@
         	else
         	{
 			
-				$this->load->model('user_profile');
-				$result = $this->user_profile->user_profile($id);
+				$this->load->model('user_profile_model');
+				$result = $this->user_profile_model->user_profile($id);
 				$data['result'] = $result;
 				
 				$this->load->view('admin/includes/header');
@@ -280,7 +280,7 @@
 						if($password == NULL || $password == "")
 						{
 							$user_data 	= array(
-										'id'        =>$id,
+										'id'        => $id,
 										'name'		=> $name,
 									  	'user_type'	=> $usertype,
 						  				'email' 	=> $email,
@@ -374,18 +374,44 @@
 
 		public function user_list_sorting()
 		{
-			$sortby = $_POST['data'];
+			$sortby = $this->input->post('sortby');
 			$this->load->model('user_list_sorting_model');
 			$result = $this->user_list_sorting_model->user_sorting($sortby);
 			$data['results'] = $result;
-			//echo $data;
-			//$this->load->view('admin/includes/header');
-			//$this->load->view('admin/includes/sidebar_list');
+			
 			$this->load->view('admin/user/user_table',$data);	
-			//$this->load->view('admin/includes/footer');
+			
 
 		}
 
+		//======================================================
+
+		/**
+		* @function :  we used this function for search the user
+		* @parametere : $name : 
+		* @parametere : s
+		*/
+
+		
+		public function  search_user()
+		{
+			$searchby = $this->input->post('searchby');
+			$this->load->model('search_user_model');
+			$result = $this->search_user_model->search_user($searchby);
+			
+			if (FALSE == $result) 
+			{
+				echo "No Rrecord Found";
+
+
+			}
+			else
+			{
+				$data['results'] = $result;
+			
+				$this->load->view('admin/user/user_table',$data);
+			}
+		}
 		//======================================================
 
 		/**
@@ -397,7 +423,7 @@
 		public function delete_user()
 		{
 			
-			$id = $_POST['id'];
+			$id = $this->input->post('id');
 			$this->load->model('delete_user_model');
 			$result = $this->delete_user_model->delete_user($id);
 			
@@ -422,7 +448,7 @@
 
 		public function disable_user()
 		{
-			$id = $_POST['id'];
+			$id = $this->input->post('id');
 
 		
 			 $this->load->model('disable_user_model');

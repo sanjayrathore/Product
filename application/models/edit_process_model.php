@@ -9,6 +9,9 @@ class Edit_process_model extends CI_Model
 		{
 			parent::__construct();
 		}
+
+		//======================================================
+		
 		public function edit_process($user_data)
 		{
 

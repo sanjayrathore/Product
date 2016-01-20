@@ -7,6 +7,9 @@
 		{
 			parent::__construct();
 		}
+		
+		//======================================================
+
 		public function disable_user($id)
 		{
 			$this -> db -> select('is_enabled');

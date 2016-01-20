@@ -6,7 +6,7 @@ $(document).ready(function(){
 	{
 		$.ajax({
 		        type: "POST",
-		        url: url,
+		        url: tableurl,
 		      
 		        success: function(response) {
 
@@ -145,7 +145,7 @@ $(document).ready(function(){
 			{
 				
 				minlength: "The password  length must be more then 8 ",
-				//pattern: "The password should be one"
+				
 			},
 			username:
 			{
@@ -233,24 +233,24 @@ $(document).ready(function(){
 
    	var a;
    	//var b;
-	var data;
+	var sortby;
 
     $(document).on("click", "#nameId", function(){
     	//alert("dgha");
     	if (a == 1) {
 			a = 0;
-			data = "nameDESC";	
+			sortby = "nameDESC";	
 		}
 		else
 		{
 			a = 1;
-			data = "nameASC";
+			sortby = "nameASC";
 		}
 		$.ajax({
 			type: "POST",
 			url : "user_list_sorting",
 			dataType: 'html',
-			data: 'data='+data,
+			data: 'sortby='+sortby,
 			success:function(response){
 				//alert(response);
 
@@ -268,18 +268,18 @@ $(document).ready(function(){
     	
     	if (a == 1) {
 			a = 0;
-			data = "emailDESC";	
+			sortby = "emailDESC";	
 		}
 		else
 		{
 			a = 1;
-			data = "emailASC";
+			sortby = "emailASC";
 		}
 		$.ajax({
 			type: "POST",
 			url : "user_list_sorting",
 			dataType: 'html',
-			data: 'data='+data,
+			data: 'sortby='+sortby,
 			success:function(response){
 				//alert(response);
 
@@ -327,5 +327,36 @@ $(document).ready(function(){
 		        }
 		    });
     });
+
+    //==========================================================
+
+    $(document).on("change", "#search", function(){	
+    	
+    	var searchby = $("#search").val();
+    	var len = searchby.length;
+    	
+     	if ( 3 <= len )
+     	{
+     		
+	    	var url = $(this).data('url');
+				//alert(url);
+			$.ajax({
+					type:'POST',
+					url: url,
+					dataType: 'html',
+					data: 'searchby='+searchby,
+					success:function(response){
+					
+						//alert(searchby);
+						$("#userlisttable").html(response);
+						$("[name='enab_dis']").hide();
+					}
+			});
+     	}
+   		else
+   		{
+    		alert("please enter more then three charcter");
+    	}
+	});
 
 });

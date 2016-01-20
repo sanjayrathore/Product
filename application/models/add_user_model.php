@@ -2,9 +2,11 @@
 	class Add_user_model extends CI_Model
 	{
 		public function __construct() 
-			{
+		{
 				parent::__construct();
-			}
+		}
+		//======================================================
+		
 		public function add_user($user_data){
 			
 
