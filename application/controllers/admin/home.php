@@ -4,8 +4,8 @@
 	{	
 		/**
 		* @function : why we used this function 
-		* @parametere : $name : 
-		* @parametere : s
+		* @parametere :  
+		* @parametere :
 		*/
 
 		public function __construct()
@@ -20,8 +20,8 @@
 
 		/**
 		* @function :  we used this function for admin login page
-		* @parametere : $name : 
-		* @parametere : s
+		* @parametere : 
+		* @parametere : 
 		*/
 
 		public function index()
@@ -44,8 +44,8 @@
 
 		/**
 		* @function :  we used this function for desh_board page
-		* @parametere : $name : 
-		* @parametere : s
+		* @parametere :
+		* @parametere : 
 		*/
 		
 		public function deshboard()

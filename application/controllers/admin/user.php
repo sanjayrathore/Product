@@ -6,21 +6,24 @@
 		{
 		
 			parent::__construct();
-			$this->load->helper(array('form', 'url'));
-			$this->load->library('form_validation');
-			$this->load->library('session');		
+
+			$this->load->model('User_model');
+
+			
+			
 		}
 
 		//======================================================
 
 		/**
 		* @function :  we used this function for admin login process
-		* @parametere : $name : 
-		* @parametere : s
+		* @parametere : 
+		* @parametere : 
 		*/
 
 		public function admin_login()
 		{
+			
 			
 			if(count($_POST) > 0)
 			{
@@ -37,8 +40,8 @@
 					$user_name 	= $this->input->post('username');
 					$password 	= $this->input->post('password');
 
-					$this->load->model('login_model');
-					$result = $this->login_model->validate($user_name,$password);
+					//$this->load->model('User_model');
+					$result = $this->User_model->validate($user_name,$password);
 					
 					if(empty($result))
 					{
@@ -111,8 +114,8 @@
         	else
         	{
 			
-				$this->load->model('user_profile_model');
-				$result = $this->user_profile_model->user_profile($id);
+				//$this->load->model('User_model');
+				$result = $this->User_model->user_profile($id);
 				$data['result'] = $result;
 				
 				$this->load->view('admin/includes/header');
@@ -175,7 +178,7 @@
 					}
 					else
 					{	
-						$this->load->model('add_user_model');
+						//$this->load->model('User_model');
 
 						$name 		= $this->input->post('name');
 						$usertype 	= $this->input->post('usertype');
@@ -190,7 +193,7 @@
 						  				'password' 	=> $password,
 						  				'username' 	=> $username
 						  				);
-						$result 	=  $this->add_user_model->add_user($user_data);
+						$result 	=  $this->User_model->add_user($user_data);
 						
 						if( TRUE == $result )
 						{
@@ -229,8 +232,8 @@
         	}
         	else
         	{
-				$this->load->model('edit_model');
-				$result 	=  $this->edit_model->edit_user($id);
+				//$this->load->model('User_model');
+				$result 	=  $this->User_model->edit_user($id);
 				$data['result']= $result;
 				$this->load->view('admin/includes/header');	
 				$this->load->view('admin/includes/sidebar_list');
@@ -269,7 +272,7 @@
 					}
 					else
 					{	
-						$this->load->model('edit_process_model');
+						//$this->load->model('User_model');
 						$id         = $this->input->post('id');
 						$name 		= $this->input->post('name');
 						$usertype 	= $this->input->post('usertype');
@@ -298,7 +301,7 @@
 						  				'username' 	=> $username
 						  				);
 						}
-						$result = $this->edit_process_model->edit_process($user_data);
+						$result = $this->User_model->edit_process($user_data);
 						
 						if(TRUE == $result )
 						{
@@ -354,8 +357,8 @@
 
 		public function user_table()
 		{
-				$this->load->model('user_list_model');
-				$result = $this->user_list_model->user_list();
+				//$this->load->model('User_model');
+				$result = $this->User_model->user_list();
 				$data['results'] = $result;
 				echo $this->load->view('admin/user/user_table', $data, true);
 				die;
@@ -375,8 +378,8 @@
 		public function user_list_sorting()
 		{
 			$sortby = $this->input->post('sortby');
-			$this->load->model('user_list_sorting_model');
-			$result = $this->user_list_sorting_model->user_sorting($sortby);
+			//$this->load->model('User_model');
+			$result = $this->User_model->user_sorting($sortby);
 			$data['results'] = $result;
 			
 			$this->load->view('admin/user/user_table',$data);	
@@ -396,12 +399,12 @@
 		public function  search_user()
 		{
 			$searchby = $this->input->post('searchby');
-			$this->load->model('search_user_model');
-			$result = $this->search_user_model->search_user($searchby);
+			//$this->load->model('User_model');
+			$result = $this->User_model->search_user($searchby);
 			
 			if (FALSE == $result) 
 			{
-				echo "No Rrecord Found";
+				echo "No Record Found";
 
 
 			}
@@ -424,8 +427,8 @@
 		{
 			
 			$id = $this->input->post('id');
-			$this->load->model('delete_user_model');
-			$result = $this->delete_user_model->delete_user($id);
+			//$this->load->model('User_model');
+			$result = $this->User_model->delete_user($id);
 			
 			if ($result == 1) 
 			{
@@ -451,8 +454,8 @@
 			$id = $this->input->post('id');
 
 		
-			 $this->load->model('disable_user_model');
-			 $result = $this->disable_user_model->disable_user($id);
+			 //$this->load->model('User_model');
+			 $result = $this->User_model->disable_user($id);
 			 echo json_encode($result);
 			
 		}
