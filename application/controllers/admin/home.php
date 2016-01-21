@@ -1,4 +1,5 @@
 <?php
+	defined('BASEPATH') OR exit('No direct script access allowed');
 	
 	class Home extends CI_Controller
 	{	
@@ -26,7 +27,10 @@
 
 		public function index()
 		{
-			if ( $this->session->userdata('username'))
+			
+			$session_data = $this->session->userdata('username');
+			
+			if ( !empty( $session_data  )
          	{
         		
 				redirect('admin/home/deshboard');
@@ -50,17 +54,13 @@
 		
 		public function deshboard()
 		{
-			if ( ! $this->session->userdata('username'))
-        	{
-        		redirect('admin');
-        	}
-        	else
-        	{
-				$this->load->view('admin/includes/header');
-				$this->load->view('admin/includes/sidebar_list');
-				$this->load->view('admin/home/deshboard');
-				$this->load->view('admin/includes/footer');	
-			}
+			is_user_login();
+			
+			$this->load->view('admin/includes/header');
+			$this->load->view('admin/includes/sidebar_list');
+			$this->load->view('admin/home/deshboard');
+			$this->load->view('admin/includes/footer');	
+			
 		}
 		
 	}	

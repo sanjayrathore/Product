@@ -1,4 +1,5 @@
 <?php
+	defined('BASEPATH') OR exit('No direct script access allowed');
 
 	class User extends CI_Controller
 	{
@@ -40,7 +41,7 @@
 					$user_name 	= $this->input->post('username');
 					$password 	= $this->input->post('password');
 
-					//$this->load->model('User_model');
+			
 					$result = $this->User_model->validate($user_name,$password);
 					
 					if(empty($result))
@@ -57,7 +58,7 @@
 										'username' 	=> $user_name,
 										'password' 	=> $password
 									);
-						$this->session->set_userdata($data);
+						$session_data = $this->session->set_userdata($data);
 						
 
 						redirect('admin/home/deshboard');
@@ -79,42 +80,32 @@
 
 		/**
 		* @function :  we used this function for user  profile page
-		* @parametere : $name : 
-		* @parametere : s
+		* @parametere :  
+		* @parametere : 
 		*/
 
 		public function user_profile()
 		{	
+			is_user_login();
 
-			if ( ! $this->session->userdata('username'))
-        	{
-        		redirect('admin');
-        	}
-        	else
-        	{	
-				$id = $this->session->userdata('id');
-				$this->user_profile_process($id);
-			}
+			$id = $this->session->userdata('id');
+			$this->user_profile_process($id);
+		
 		}
 
 		//======================================================
 
 		/**
 		* @function :  we used this function for user_profile page
-		* @parametere : $name : 
-		* @parametere : s
+		* @parametere : $user id: 
+		* @parametere : 
 		*/
 
 		public function user_profile_process($id)
 		{
-			if ( ! $this->session->userdata('username'))
-        	{
-        		redirect('admin');
-        	}
-        	else
-        	{
-			
-				//$this->load->model('User_model');
+		
+				is_user_login();	
+				
 				$result = $this->User_model->user_profile($id);
 				$data['result'] = $result;
 				
@@ -122,248 +113,224 @@
 				$this->load->view('admin/includes/sidebar_list');
 				$this->load->view('admin/user/user_profile',$data);
 				$this->load->view('admin/includes/footer');	
-			}
+			
 		}
 
 		//======================================================
 		
 		/**
 		* @function :  we used this function for add user form
-		* @parametere : $name : 
-		* @parametere : s
+		* @parametere :  
+		* @parametere : 
 		*/
 
 		public function add_user()
 		{	
-			if ( ! $this->session->userdata('username'))
-        	{
-        		redirect('admin');
-        	}
-        	else
-        	{
-				$this->load->view('admin/includes/header');
-				$this->load->view('admin/includes/sidebar_list');
-				$this->load->view('admin/user/add_user');
-				$this->load->view('admin/includes/footer');
-			}	
+				
+			is_user_login();
+
+			$this->load->view('admin/includes/header');
+			$this->load->view('admin/includes/sidebar_list');
+			$this->load->view('admin/user/add_user');
+			$this->load->view('admin/includes/footer');
+					
 		}
 
 		//======================================================
 
 		/**
 		* @function :  we used this function for add userprocess 
-		* @parametere : $name : 
-		* @parametere : s
+		* @parametere :  
+		* @parametere : 
 		*/
 
 		public function add_user_process()
 		{
-			if ( ! $this->session->userdata('username'))
-        	{
-        		redirect('admin');
-        	}
-        	else
-        	{
-				if(count($_POST) > 0)
-				{
-					$this->form_validation->set_rules('name', 'Name', 'trim|required');
-					$this->form_validation->set_rules('usertype', 'UserType', 'trim|required');
-					$this->form_validation->set_rules('email', 'Email', 'trim|required');
-					$this->form_validation->set_rules('password', 'Password', 'trim|required');
-					$this->form_validation->set_rules('username', 'UserName', 'trim|required');
-					
-					if ( FALSE == $this->form_validation->run())
-					{	
-						$this->add_user();
-					}
-					else
-					{	
-						//$this->load->model('User_model');
-
-						$name 		= $this->input->post('name');
-						$usertype 	= $this->input->post('usertype');
-						$email 		= $this->input->post('email');
-						$password 	= $this->input->post('password');
-						$username 	= $this->input->post('username');
-						$user_data 	= array(
-					
-										'name'		=> $name,
-									  	'user_type'	=> $usertype,
-						  				'email' 	=> $email,
-						  				'password' 	=> $password,
-						  				'username' 	=> $username
-						  				);
-						$result 	=  $this->User_model->add_user($user_data);
-						
-						if( TRUE == $result )
-						{
-							redirect('admin/home/deshboard');
-						}
-						else
-						{
-							redirect('admin/user/add_user');
-						}
-					}	
+			is_user_login();	
+			
+			if(count($_POST) > 0)
+			{
+				$this->form_validation->set_rules('name', 'Name', 'trim|required');
+				$this->form_validation->set_rules('usertype', 'UserType', 'trim|required');
+				$this->form_validation->set_rules('email', 'Email', 'trim|required');
+				$this->form_validation->set_rules('password', 'Password', 'trim|required');
+				$this->form_validation->set_rules('username', 'UserName', 'trim|required');
+				
+				if ( FALSE == $this->form_validation->run())
+				{	
+					$this->add_user();
 				}
 				else
-				{
-					$this->load->view('admin/includes/header');
-					$this->load->view('admin/includes/sidebar_list');
-					$this->load->view('admin/user/add_user');
-					$this->load->view('admin/includes/footer');
-				}
+				{	
+					
+
+					$name 		= $this->input->post('name');
+					$usertype 	= $this->input->post('usertype');
+					$email 		= $this->input->post('email');
+					$password 	= $this->input->post('password');
+					$username 	= $this->input->post('username');
+					$user_data 	= array(
+				
+									'name'		=> $name,
+								  	'user_type'	=> $usertype,
+					  				'email' 	=> $email,
+					  				'password' 	=> $password,
+					  				'username' 	=> $username
+					  				);
+					$result 	=  $this->User_model->add_user($user_data);
+					
+					if( TRUE == $result )
+					{
+						redirect('admin/home/deshboard');
+					}
+					else
+					{
+						redirect('admin/user/add_user');
+					}
+				}	
 			}
+			else
+			{
+				$this->load->view('admin/includes/header');
+				$this->load->view('admin/includes/sidebar_list');
+				$this->load->view('admin/user/add_user');
+				$this->load->view('admin/includes/footer');
+			}
+			
 		}
 
 		//======================================================
 
 		/**
 		* @function :  we used this function for edit user  form
-		* @parametere : $id : 
-		* @parametere : s
+		* @parametere : $user id : 
+		* @parametere : 
 		*/
 
 		public function edit_user($id)
 		{
+			is_user_login();
+				
+			$result 		=  	$this->User_model->edit_user($id);
+			$data['result']	= 	$result;
+			$this->load->view('admin/includes/header');	
+			$this->load->view('admin/includes/sidebar_list');
+			$this->load->view('admin/user/edit_user',$data);
+			$this->load->view('admin/includes/footer');	
 			
-			if ( ! $this->session->userdata('username'))
-        	{
-        		redirect('admin');
-        	}
-        	else
-        	{
-				//$this->load->model('User_model');
-				$result 	=  $this->User_model->edit_user($id);
-				$data['result']= $result;
-				$this->load->view('admin/includes/header');	
-				$this->load->view('admin/includes/sidebar_list');
-				$this->load->view('admin/user/edit_user',$data);
-				$this->load->view('admin/includes/footer');	
-			}
 		}
 
 		//======================================================
 
 		/**
 		* @function :  we used this function for edit user process 
-		* @parametere : $name : 
-		* @parametere : s
+		* @parametere :  
+		* @parametere : 
 		*/
 
 		public function edit_user_process()
 		{
-			if ( ! $this->session->userdata('username'))
-        	{
-        		redirect('admin');
-        	}
-        	else
-        	{
-				if(count($_POST) > 0)
-				{
-					$this->form_validation->set_rules('name', 'Name', 'trim|required');
-					$this->form_validation->set_rules('usertype', 'UserType', 'trim|required');
-					$this->form_validation->set_rules('email', 'Email', 'trim|required');
-					$this->form_validation->set_rules('password', 'Password', 'trim');
-					$this->form_validation->set_rules('username', 'UserName', 'trim|required');
+			is_user_login();
+				
+			if(count($_POST) > 0)
+			{
+				$this->form_validation->set_rules('name', 'Name', 'trim|required');
+				$this->form_validation->set_rules('usertype', 'UserType', 'trim|required');
+				$this->form_validation->set_rules('email', 'Email', 'trim|required');
+				$this->form_validation->set_rules('password', 'Password', 'trim');
+				$this->form_validation->set_rules('username', 'UserName', 'trim|required');
+				
+				if (FALSE == $this->form_validation->run())
+				{	
+					$this->add_user();
+				}
+				else
+				{	
 					
-					if (FALSE == $this->form_validation->run())
-					{	
-						$this->add_user();
+					$id         = $this->input->post('id');
+					$name 		= $this->input->post('name');
+					$usertype 	= $this->input->post('usertype');
+					$email 		= $this->input->post('email');
+					$password 	= $this->input->post('password');
+					$username 	= $this->input->post('username');
+					
+					if($password == NULL || $password == "")
+					{
+						$user_data 	= array(
+									'id'        => $id,
+									'name'		=> $name,
+								  	'user_type'	=> $usertype,
+					  				'email' 	=> $email,
+					  				'username' 	=> $username
+					  				);
 					}
 					else
-					{	
-						//$this->load->model('User_model');
-						$id         = $this->input->post('id');
-						$name 		= $this->input->post('name');
-						$usertype 	= $this->input->post('usertype');
-						$email 		= $this->input->post('email');
-						$password 	= $this->input->post('password');
-						$username 	= $this->input->post('username');
-						
-						if($password == NULL || $password == "")
-						{
-							$user_data 	= array(
-										'id'        => $id,
-										'name'		=> $name,
-									  	'user_type'	=> $usertype,
-						  				'email' 	=> $email,
-						  				'username' 	=> $username
-						  				);
-						}
-						else
-						{
-							$user_data 	= array(
-										'id'        => $id,
-										'name'		=> $name,
-									  	'user_type'	=> $usertype,
-						  				'email' 	=> $email,
-						  				'password' 	=> $password,
-						  				'username' 	=> $username
-						  				);
-						}
-						$result = $this->User_model->edit_process($user_data);
-						
-						if(TRUE == $result )
-						{
-							redirect('admin/user/user_profile_process/'.$id);
-						}
-						else
-						{
-							redirect('admin/user/edit_user');
-						}
-					}	
-				}
-				
-				
-					$this->load->view('admin/includes/header');
-					$this->load->view('admin/includes/sidebar_list');	
-					$this->load->view('admin/user/edit_user');
-					$this->load->view('admin/includes/footer');
-				
+					{
+						$user_data 	= array(
+									'id'        => $id,
+									'name'		=> $name,
+								  	'user_type'	=> $usertype,
+					  				'email' 	=> $email,
+					  				'password' 	=> $password,
+					  				'username' 	=> $username
+					  				);
+					}
+					$result = $this->User_model->edit_process($user_data);
+					
+					if(TRUE == $result )
+					{
+						redirect('admin/user/user_profile_process/'.$id);
+					}
+					else
+					{
+						redirect('admin/user/edit_user');
+					}
+				}	
 			}
+			
+			$this->load->view('admin/includes/header');
+			$this->load->view('admin/includes/sidebar_list');	
+			$this->load->view('admin/user/edit_user');
+			$this->load->view('admin/includes/footer');
+			
+			
 		}
 
 		//======================================================
 
 		/**
 		* @function :  we used this function for user list page
-		* @parametere : $name : 
-		* @parametere : s
+		* @parametere :  
+		* @parametere : 
 		*/
 
 		public function user_list()
 		{
-			if ( ! $this->session->userdata('username'))
-        	{
-        		redirect('admin');
-        	}
-        	else
-        	{
-				
-				$this->load->view('admin/includes/header');
-				$this->load->view('admin/includes/sidebar_list');
-				$this->load->view('admin/user/user_list');	
-				$this->load->view('admin/includes/footer');
-			}
+			is_user_login();	
+			
+			$this->load->view('admin/includes/header');
+			$this->load->view('admin/includes/sidebar_list');
+			$this->load->view('admin/user/user_list');	
+			$this->load->view('admin/includes/footer');
+			
 		}
 
 		//======================================================
 		
 		/**
 		* @function :  we used this function for user list table
-		* @parametere : $name : 
-		* @parametere : s
+		* @parametere :  
+		* @parametere : 
 		*/
 
 		public function user_table()
 		{
-				//$this->load->model('User_model');
+				
 				$result = $this->User_model->user_list();
 				$data['results'] = $result;
 				echo $this->load->view('admin/user/user_table', $data, true);
 				die;
-				//$this->load->view('admin/includes/footer');
-
+		
 		}
 
 
@@ -371,14 +338,14 @@
 
 		/**
 		* @function :  we used this function for sorting the user list
-		* @parametere : $name : 
-		* @parametere : s
+		* @parametere :  
+		* @parametere : 
 		*/
 
 		public function user_list_sorting()
 		{
 			$sortby = $this->input->post('sortby');
-			//$this->load->model('User_model');
+			
 			$result = $this->User_model->user_sorting($sortby);
 			$data['results'] = $result;
 			
@@ -391,15 +358,15 @@
 
 		/**
 		* @function :  we used this function for search the user
-		* @parametere : $name : 
-		* @parametere : s
+		* @parametere :  
+		* @parametere : 
 		*/
 
 		
 		public function  search_user()
 		{
 			$searchby = $this->input->post('searchby');
-			//$this->load->model('User_model');
+			
 			$result = $this->User_model->search_user($searchby);
 			
 			if (FALSE == $result) 
@@ -419,15 +386,15 @@
 
 		/**
 		* @function :  we used this function for delete user
-		* @parametere : $name : 
-		* @parametere : s
+		* @parametere :  
+		* @parametere : 
 		*/
 
 		public function delete_user()
 		{
 			
 			$id = $this->input->post('id');
-			//$this->load->model('User_model');
+			
 			$result = $this->User_model->delete_user($id);
 			
 			if ($result == 1) 
@@ -445,18 +412,16 @@
 
 		/**
 		* @function :  we used this function for disable user 
-		* @parametere : $name : 
-		* @parametere : s
+		* @parametere :  
+		* @parametere : 
 		*/
 
 		public function disable_user()
 		{
 			$id = $this->input->post('id');
 
-		
-			 //$this->load->model('User_model');
-			 $result = $this->User_model->disable_user($id);
-			 echo json_encode($result);
+			$result = $this->User_model->disable_user($id);
+			echo json_encode($result);
 			
 		}
 		
@@ -464,8 +429,8 @@
 
 		/**
 		* @function :  we used this function for logout 
-		* @parametere : $name : 
-		* @parametere : s
+		* @parametere :  
+		* @parametere : 
 		*/
 
 		public function logout()
