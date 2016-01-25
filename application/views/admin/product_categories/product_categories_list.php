@@ -1,8 +1,7 @@
-
-    <div id="page-wrapper">
+<div id="page-wrapper">
         <div class="row">
             <div class="col-lg-10">
-                <h1 class="page-header">User List</h1>
+                <h1 class="page-header">Product Categories List</h1>
             </div>
             <div class="col-md-2">
                 <a href="<?php echo site_url("admin/user/logout");?>"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -16,7 +15,7 @@
 
                         <div class="row">
                             <div class="col-lg-8">
-                                User Information
+                                Product Categories Information
                             </div>
                             <div class="col-lg-4">
                                 <form class="form-inline">
@@ -24,7 +23,7 @@
                                         <div class="input-group">
                                 
                                             <input type="text"
-                                                    id="search"
+                                                    id="product-categories-search"
                                                     data-url="<?php echo site_url("admin/user/search_user");?>"
                                                     class="form-control" 
                                                     placeholder="search" />
@@ -41,13 +40,10 @@
                 </div>
             </div>
             <div class="panel-body">
-                <div class="dataTable_wrapper" id="usertable-div">
+                <div class="dataTable_wrapper" id="product-categories-table-div">
                            
                 </div>
             </div>
         </div>
     </div>
 </div>
-   
-
-	

@@ -328,6 +328,11 @@
 				
 				$result = $this->User_model->user_list();
 				$data['results'] = $result;
+				if (false == $result) 
+				{
+					echo "No Record Found";
+					die;
+				}
 				echo $this->load->view('admin/user/user_table', $data, true);
 				die;
 		

@@ -1,16 +1,34 @@
 $(document).ready(function(){
 
-	showtable();
+	showusertable();
 
-	function showtable()
-	{
+	function showusertable()
+	{	alert("asd");
 		$.ajax({
 		        type: "POST",
-		        url: tableurl,
+		        url: usertableurl,
 		      
 		        success: function(response) {
 
-		        	$("#table-div").html(response);
+		        	$("#usertable-div").html(response);
+		        	$("[name='enab_dis']").hide();
+
+				}        	
+		});
+	}
+	//==========================================================
+	show_pro_cat_table();
+
+	function show_pro_cat_table()
+	{
+		//alert(pro_cat_tableurl);
+		$.ajax({
+		        type: "POST",
+		        url: pro_cat_tableurl,
+		      
+		        success: function(response) {
+
+		        	$("#product-categories-table-div").html(response);
 		        	$("[name='enab_dis']").hide();
 
 				}        	
@@ -173,7 +191,27 @@ $(document).ready(function(){
 			}
 		}
 	});
+	
+	//==========================================================
 
+	$("#pro_categories_form").validate
+	({
+		rules:
+		{
+			title:
+			{
+				required : true,
+			},
+			description:
+			{
+				required : true,
+			},
+			imagefile:
+			{
+				required : true,
+			}
+		}
+	});
 	//==========================================================
 
 	jQuery.validator.addMethod("numericpattern", function(value, element){
@@ -202,6 +240,7 @@ $(document).ready(function(){
     	
     	var id = $(this).data('id');
     	var url = $(this).data('url');
+    	//alert(url);
     
     	if( confirm("Record Deleted OR Not") )
     	{	
@@ -299,7 +338,7 @@ $(document).ready(function(){
     	
     	var id = $(this).data('id');
     	var url = $(this).data('url');
-
+    	//alert(url);
 		$.ajax({
 		        type: "POST",
 		        url: url,
@@ -307,7 +346,7 @@ $(document).ready(function(){
 		      	data:'id='+id,
 		        success: function(response) {
 		        	var message = "false";
-		        		
+		        		//alert(response);
 		        	if (response == 1) 
 		        	{
 		        		$("#tr_"+id).removeClass("disable-color");
@@ -322,7 +361,7 @@ $(document).ready(function(){
 		        	}
 		        	if (response == "false") 
 		        	{
-		        		alert("REcord not disabled");
+		        		alert("Record not disabled");
 		        	}
 		        }
 		    });

@@ -29,13 +29,13 @@
 		{
 			
 			$session_data = $this->session->userdata('username');
-			
-			if ( !empty( $session_data  )
-         	{
+		
+			if (!empty($session_data))
+   			{
         		
-				redirect('admin/home/deshboard');
+        		redirect('admin/home/deshboard');
          	}
-    	   	else
+    	    	else
          	{
          		$this->load->view('admin/includes/header');
 				$this->load->view('admin/home/index');
@@ -64,4 +64,5 @@
 		}
 		
 	}	
+
 

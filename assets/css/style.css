@@ -60,6 +60,10 @@ th
 	color: #C0C0C0;
 	
 }
+.description-cloumn
+{
+	word-break: break-all;
+}
 
 
 

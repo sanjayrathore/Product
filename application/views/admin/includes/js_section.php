@@ -12,6 +12,7 @@
 		
 <script type="text/javascript" src="<?php echo base_url("assets/lib/sb.admin/dist/js/sb-admin-2.js"); ?>"></script>
 <script type="text/javascript">
-	var tableurl = "<?php echo base_url('admin/user/user_table');?>";
+	var usertableurl = "<?php echo base_url('admin/user/user_table');?>";
+	var pro_cat_tableurl= "<?php echo base_url('admin/product_categories/product_categories_table')?>"
 </script>
 <script type="text/javascript" src="<?php echo base_url("assets/js/script.js");?>"></script>

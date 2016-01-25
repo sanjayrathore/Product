@@ -1,0 +1,77 @@
+<table class="table table-striped table-bordered table-hover" id="userlisttable">
+        <thead>
+            <tr>
+                <th><a href="javascript:void(0)" id="" >Title</a></th>
+                <th><a href="javascript:void(0)" id="" >Description</a></th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+
+                foreach ($results as $row)
+                {   
+                    if ($row->is_enabled == 1)
+                    {
+
+                    
+            ?>
+                        <tr id="tr_<?php echo $row->id ;?>" class="odd gradeX">
+                            <td><?php echo $row->title; ?></td>
+                            <td class="description-cloumn"><?php echo $row->description; ?></td>
+                            <td>
+                                <a href="javascript:void(0)" class="disable_button" data-id="<?php echo $row->id;?>" data-url="<?php echo site_url('admin/product_categories/disable_pro_categories');?>">
+                                    
+                                    <span id="en_<?php echo $row->id;?>">
+                                        
+                                        <img src="<?php echo base_url(); ?>assets/images/enable.png" >
+                                    
+                                    </span>
+                                    
+                                    <span name="enab_dis" id="dis_<?php echo $row->id;?>">
+                                        
+                                        <img src="<?php echo base_url(); ?>assets/images/disable.png" >
+
+                                    </span>
+                                
+                                </a>
+                                
+                                <a href="<?php echo site_url('admin/user/edit_user/'.$row->id);?>"  ><i class="glyphicon glyphicon-pencil"></i></a>
+                                
+                                <a href="javascript:void(0)" data-url="<?php echo site_url('admin/product_categories/delete_pro_categories');?>" data-id="<?php echo $row->id;?>" class="deleteuser" ><i class="glyphicon glyphicon-trash"></i></a>
+                            </td>
+                            
+                        </tr>            
+            <?php
+                    }
+                    else
+                    {
+            ?>          <tr id="tr_<?php echo $row->id ;?>" class="odd gradeX disable-color">
+                            <td><?php echo $row->title; ?></td>
+                            <td><?php echo $row->description; ?></td>
+                            <td>
+                                <a href="javascript:void(0)" class="disable_button" data-id="<?php echo $row->id;?>" data-url="<?php echo site_url('admin/product_categories/disable_pro_categories');?>">
+                                    
+                                    <span  name = "enab_dis" id="en_<?php echo $row->id;?>">
+                                    
+                                        <img src="<?php echo base_url(); ?>assets/images/enable.png" >
+                                    
+                                    </span>
+                                    
+                                    <span id="dis_<?php echo $row->id;?>">
+                                    
+                                        <img src="<?php echo base_url(); ?>assets/images/disable.png" >
+                                    
+                                    </span>
+                                </a>
+                                <a href="<?php echo site_url('admin/user/edit_user/'.$row->id);?>"  ><i class="glyphicon glyphicon-pencil"></i></a>
+                                
+                                <a href="javascript:void(0)" data-url="<?php echo site_url('admin/product_categories/delete_pro_categories');?>" data-id="<?php echo $row->id;?>" class="deleteuser" ><i class="glyphicon glyphicon-trash"></i></a>
+                            </td>
+                        </tr> 
+            <?php     
+                    }
+                }
+            ?>
+        </tbody>
+    </table>

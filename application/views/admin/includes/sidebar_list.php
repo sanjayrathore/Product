@@ -20,10 +20,10 @@
                     <a href="#"><i class="fa fa-dashboard fa-fw"></i>Product Category</a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="#">Product Category List</a>
+                            <a href="<?php echo site_url("admin/product_categories/product_categories_list");?>">Product Category List</a>
                         </li>
                         <li>
-                            <a href="#">Product Category Add</a>
+                            <a href="<?php echo site_url("admin/product_categories/add_pro_categories");?>">Product Category Add</a>
                         </li>
                     </ul>
                 </li>
