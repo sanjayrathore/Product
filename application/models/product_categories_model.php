@@ -82,4 +82,53 @@ class product_categories_model extends CI_Model
 		}
 	}
 
+	//==========================================================
+
+	public function add_pro_categories($data)
+	{
+		$this->db->insert('PRODUCT_CATEGORIES',$data);
+		
+		if($this->db->affected_rows()>0)
+		{
+			
+			return TRUE;
+		}
+		else
+		{
+			return FAlSE;
+		}
+	}
+
+	//==========================================================
+
+	public function edit_pro_categories($id)
+	{
+		$this -> db -> select('id,title,description,image_name');
+		$this -> db -> from('PRODUCT_CATEGORIES');
+		$this -> db -> where('id', $id);
+		$query = $this -> db -> get();
+		//print_r($this->db->last_query());
+		//die;
+    
+		if($query -> num_rows() > 0)
+		{	
+			
+			$data = $query->row();
+        
+       		$result = array(
+        			'id'  =>$data->id,
+        			'title' =>$data->title, 
+        			'description'=>$data->description,
+        			'image_name' => $data->image_name
+        		
+        			);
+			return  $result;
+        
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 }

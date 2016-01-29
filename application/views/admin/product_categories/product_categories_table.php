@@ -36,7 +36,7 @@
                                 
                                 </a>
                                 
-                                <a href="<?php echo site_url('admin/user/edit_user/'.$row->id);?>"  ><i class="glyphicon glyphicon-pencil"></i></a>
+                                <a href="<?php echo site_url('admin/product_categories/edit_pro_categories/'.$row->id);?>"  ><i class="glyphicon glyphicon-pencil"></i></a>
                                 
                                 <a href="javascript:void(0)" data-url="<?php echo site_url('admin/product_categories/delete_pro_categories');?>" data-id="<?php echo $row->id;?>" class="deleteuser" ><i class="glyphicon glyphicon-trash"></i></a>
                             </td>
@@ -64,7 +64,7 @@
                                     
                                     </span>
                                 </a>
-                                <a href="<?php echo site_url('admin/user/edit_user/'.$row->id);?>"  ><i class="glyphicon glyphicon-pencil"></i></a>
+                                <a href="<?php echo site_url('admin/product_categories/edit_pro_categories/'.$row->id);?>"  ><i class="glyphicon glyphicon-pencil"></i></a>
                                 
                                 <a href="javascript:void(0)" data-url="<?php echo site_url('admin/product_categories/delete_pro_categories');?>" data-id="<?php echo $row->id;?>" class="deleteuser" ><i class="glyphicon glyphicon-trash"></i></a>
                             </td>

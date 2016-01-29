@@ -35,6 +35,9 @@ define('FOPEN_WRITE_CREATE',					'ab');
 define('FOPEN_READ_WRITE_CREATE',				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
+define('BASE_FOLDER', '/learn/ProductManagement');
+define('ROOT_PATH',$_SERVER['DOCUMENT_ROOT'].BASE_FOLDER);
+define('UPLOAD_ROOT_PATH',ROOT_PATH.'/assets/upload');
 
 
 /* End of file constants.php */

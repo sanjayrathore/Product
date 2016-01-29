@@ -16,22 +16,24 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-6 col-lg-offset-2">
-                                <form role="form" id="pro_categories_form" method="POST" action="<?php echo site_url("admin/product_categories/do_upload");?>"  enctype="multipart/form-data">
+                                <form role="form"  method="POST" action="<?php echo site_url("admin/product_categories/edit_process_pro__categories");?>"  enctype="multipart/form-data">
+                                    <input type="hidden" name ="image_name" value="<?php echo $result['image_name'];?>">
                                     <div class="form-group">
                                         <label for="title">Title</label>
-                                        <input type="text" name="title" id="title"class="form-control"/>
+                                        <input type="text" name="title" id="title"class="form-control" value="<?php echo $result['title'];?>"/>
                                         <div class="error"><?php echo form_error('title'); ?></div>
                                     </div>
                                     <div class="form-group">
                                         <label for="description">Description</label>
                                         <div class="col-sm-12">
-                                            <textarea class="form-control" rows="4" name="description" id="description"></textarea>
+                                            <textarea class="form-control" rows="4" name="description" id="description" ><?php echo $result['description'];?></textarea>
                                         </div>
                                         <div class="error"><?php echo form_error('description'); ?></div>
                                     </div>
-                                   <div class="form-group">
+                                    <div class="form-group">
                                         <label for="imagefile">Image File </label>
-                                        <input type="file" name="imagefile" id="imagefile"/>
+                                        <input type="file" name="editimagefile" id="imagefile" />
+
                                         <div class="error"><?php echo form_error('imagefile'); ?></div>
                                     </div>
                                     <div class="form-group">

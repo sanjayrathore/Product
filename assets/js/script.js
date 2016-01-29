@@ -3,7 +3,7 @@ $(document).ready(function(){
 	showusertable();
 
 	function showusertable()
-	{	alert("asd");
+	{	//alert("asd");
 		$.ajax({
 		        type: "POST",
 		        url: usertableurl,
@@ -39,8 +39,10 @@ $(document).ready(function(){
 	$("#reg_reset").click(function(){
 		
 		$("#reg_form").trigger("reset");
+		$("#pro_categories_form").trigger("reset");
 		
 	});
+
 
 	//==========================================================
 
