@@ -135,6 +135,14 @@
 				{
 					$title = $this -> input ->post('title');
 					$description = $this -> input -> post('description'); 
+					$image_name = "imagefile";
+					
+					$upload = upload_image($image_name);
+
+					if (false == $upload) 
+					{
+						redirect('admin/product_categories/add_pro_categories');
+					}
 					
 					$upload_data = $this->upload->data(); 
 					$file_name =   $upload_data['file_name'];
@@ -181,34 +189,6 @@
 		//======================================================
 
 		/**
-		* @function :  we used this function for resize the upload image 
-		* @parametere :  
-		* @parametere : 
-		*/
-		
-		public function resize_image($image_path,$width,$height)
-		{
-			$config['image_library'] = 'gd2';
-			$config['source_image']	= $image_path;
-			$config['width']	= $width;
-			$config['height']	= $height;
-			
-			$this->load->library('image_lib', $config); 
-
-			if ($this->image_lib->resize()) 
-			{
-				return TRUE;
-			}			
-			else
-			{
-				return FALSE;
-			}
-		}
-
-
-		//======================================================
-
-		/**
 		* @function :  we used this function for upload  image validation 
 		* @parametere :  
 		* @parametere : 
@@ -220,22 +200,8 @@
 			
 			if (isset($_FILES['imagefile'])&& !empty($_FILES['imagefile']['name'])) 
 			{
-				$this->load->library('upload');
-				$config['upload_path'] =UPLOAD_ROOT_PATH."/";
-				$config['allowed_types'] = 'gif|jpg|png';	
-
-				$this->upload->initialize($config);
-       		
-       			if ($this->upload->do_upload('imagefile'))
-				{
-					return true;
-				}
-				else
-				{
-					$this->form_validation->set_message('handle_upload', $this->upload->display_errors());
-					return false;
-				}
-					
+				
+				return true;	
 			}
 			else
 			{
@@ -280,45 +246,70 @@
 			if ( FALSE == $this->form_validation->run() )
 			{	
 				$data['errors'] = validation_errors();
+				$id             = $this -> input -> post('id');
+				redirect('admin/product_categories/edit_pro_categories/'.$id);
 			}
 			else
 			{	
+				$id             = $this -> input -> post('id');
 				$title 			= $this	-> input -> post('title');
 				$description 	= $this -> input -> post ('description');
-				
+				$file_name 		= $this	-> input -> post('image_name'); 
 				if (empty($_FILES['editimagefile']['name'])&& $_FILES['imagefile']['name'] == "") 
 				{
 					
-					$image_name 	= $this	-> input -> post('image_name'); 
-					$data  			= array(
-											'title' 		=> $title,
-											'description' 	=> $description,
-											'image_name'    => $image_name
-											);
+					
+					$pro_data  	= array(
+										'id'			=> $id,
+										'title' 		=> $title,
+										'description' 	=> $description,
+										'image_name'    => $file_name
+									);
 				}
 				else
 				{
-					$this->load->library('upload');
-					$config['upload_path'] =UPLOAD_ROOT_PATH."/";
-					$config['allowed_types'] = 'gif|jpg|png';	
-
-					$this->upload->initialize($config);
-       		
-	       			if ($this->upload->do_upload('editimagefile'))
+					$image_name = "editimagefile";
+					$upload =  upload_image($image_name);
+					
+					if (false == $upload) 
 					{
-						return true;
+						redirect('admin/product_categories/edit_pro_categories/'.$id);
 					}
-					else
-					{
 						
+					unlink(UPLOAD_ROOT_PATH."/".$file_name);
+					
+					$upload_data = $this->upload->data(); 
+					$file_name =   $upload_data['file_name'];
+					
+					$image_path = UPLOAD_ROOT_PATH."/".$file_name;
+					$width = 60;
+					$height = 50;
+					
+					$resize = $this->resize_image($image_path,$width,$height);
+					
+					if (TRUE == $resize) 
+					{
+
+						
+						$pro_data  	= array(
+											'id'	=>$id,
+											'title' => $title,
+											'description' => $description,
+											'image_name' => $file_name 
+										);
 					}
 
 				}
-					$result = $this->Product_categories_model->edit_process_pro_categories($data);
-
-					echo $th;
-					die;
 				
+				$result = $this->Product_categories_model->edit_process_pro_categories($pro_data);
+				if (TRUE == $result) 
+				{
+					redirect('admin/product_categories/product_categories_list');
+				}
+				else
+				{
+					redirect('admin/product_categories/edit_pro_categories/'.$id);
+				}
 			}
 		}
 	}

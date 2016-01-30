@@ -8,6 +8,34 @@ class User_model extends CI_Model
 		parent::__construct();
 	}
 	//======================================================
+	
+	public function forget_password($email)
+	{
+		$this -> db -> select('id,email');
+		$this -> db -> from('USERS');
+		$this -> db -> where('email', $email);
+		$query = $this -> db -> get();
+		//print_r($this->db->last_query());
+		//die;
+		if($query -> num_rows() > 0)
+		{	
+			//$result=$query->result();
+			$data = $query->row();
+      
+            $result = array(
+            			'id'  =>$data->id,
+            			'email' => $data->email
+            			);
+			return  $result;
+        
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	//==========================================================
 
 	public function validate($user_name,$password)
 	{

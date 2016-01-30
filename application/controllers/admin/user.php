@@ -17,6 +17,84 @@
 		//======================================================
 
 		/**
+		* @function :  we used this function for forget password
+		* @parametere : 
+		* @parametere : 
+		*/		
+
+		public function forget_password()
+		{
+			$this->load->view('admin/includes/header');
+			$this->load->view('admin/home/forget_password');
+			$this->load->view('admin/includes/footer');
+		}
+
+		//======================================================
+		
+		/**
+		* @function :  we used this function for forget password process
+		* @parametere : 
+		* @parametere : 
+		*/
+
+		public function forget_password_process()
+		{
+			// if (count($_post) > 0) 
+			// {
+
+				$this->form_validation->set_rules('email', 'Email', 'trim|email|required');
+
+				if ( FALSE == $this->form_validation->run() )
+				{	
+					$data['errors'] = validation_errors();
+				}
+				else
+				{
+					$email = $this -> input -> post('email');
+					$result = $this -> User_model -> forget_password($email);
+					if (false == $result) 
+					{
+					
+						$this->session->set_flashdata('email', 'invalide UserName address');
+						redirect('admin/user/forget_password');
+					}
+
+					$from_email = "sanjay.r@cisinlabs.com"; 
+         			$to_email = $this->input->post('email');
+					
+					
+					$this->load->library('email'); 
+   
+  			       	$this->email->from($from_email, 'cisinlabs'); 
+         			$this->email->to($to_email);
+         			$this->email->subject('Reset password'); 
+         			$this->email->message();
+
+         			if($this->email->send()) 
+        			{
+        				$this->session->set_flashdata("email_sent","Email sent successfully."); 
+         			
+         			}
+         			else
+         			{
+
+         				$this->session->set_flashdata("email","Error in sending Email."); 
+         				$this->load->view('email_form'); 
+					}
+					echo $to_email;
+					die;
+				}
+				$this->load->view('admin/includes/header');
+				$this->load->view('admin/home/forget_password',$data);
+				$this->load->view('admin/includes/footer');
+
+			// }
+			
+		}
+
+		//======================================================
+
+		/**
 		* @function :  we used this function for admin login process
 		* @parametere : 
 		* @parametere : 

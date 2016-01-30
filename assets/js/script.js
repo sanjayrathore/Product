@@ -202,18 +202,37 @@ $(document).ready(function(){
 		{
 			title:
 			{
-				required : true,
+				required : true
 			},
 			description:
 			{
-				required : true,
+				required : true
 			},
 			imagefile:
 			{
-				required : true,
+				required : true
 			}
 		}
 	});
+
+	//==========================================================
+
+	$("#pro_categories_editform").validate
+	({
+		rules:
+		{
+			title:
+			{
+				required : true
+
+			},
+			description:
+			{
+				required : true
+			}
+		}
+	});
+
 	//==========================================================
 
 	jQuery.validator.addMethod("numericpattern", function(value, element){

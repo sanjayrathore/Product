@@ -16,8 +16,9 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-6 col-lg-offset-2">
-                                <form role="form"  method="POST" action="<?php echo site_url("admin/product_categories/edit_process_pro__categories");?>"  enctype="multipart/form-data">
+                                <form role="form" id="pro_categories_edtform" method="POST" action="<?php echo site_url("admin/product_categories/edit_process_pro__categories");?>"  enctype="multipart/form-data">
                                     <input type="hidden" name ="image_name" value="<?php echo $result['image_name'];?>">
+                                    <input type="hidden" name ="id" value="<?php echo $result['id'];?>">
                                     <div class="form-group">
                                         <label for="title">Title</label>
                                         <input type="text" name="title" id="title"class="form-control" value="<?php echo $result['title'];?>"/>

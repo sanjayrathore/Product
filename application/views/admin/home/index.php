@@ -18,6 +18,7 @@
                                     <input class="form-control" placeholder="Password" name="password" type="password" value="">
                                     <div class="error"><?php echo form_error('password'); ?><?php echo $this->session->flashdata('password'); ?></div>
                                 </div>
+                                <a href="<?php echo site_url("admin/user/forget_password");?>">Forget Password</a>
                                 <button type="submit" class="btn btn-lg btn-info btn-block" >Login</button>
                                 
                             </fieldset>

@@ -131,4 +131,22 @@ class product_categories_model extends CI_Model
 		}
 	}
 
+	//==========================================================
+
+	public function edit_process_pro_categories($pro_data)
+	{
+		$id = $pro_data['id'];
+		$this -> db -> where('id', $id);
+		$result = $this -> db ->update('PRODUCT_CATEGORIES',$pro_data);
+			
+		if ($result == 1) 
+		{
+			return TRUE;	
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+
 }
