@@ -37,6 +37,30 @@ class User_model extends CI_Model
 
 	//==========================================================
 
+	public function check_unique_code($id, $password)
+	{
+		$this -> db -> select('id');
+		$this -> db -> from('USERS');
+		$this -> db -> where('id', $id);
+		$this -> db -> where('password', $password);
+	
+		$query = $this -> db -> get();
+		
+		if($query -> num_rows() > 0)
+		{
+			foreach ($query->result() as $row)
+        {
+            
+			return  $row->id;
+        }
+		}
+		else
+		{
+			return false;
+		}
+	}
+	//==========================================================
+
 	public function validate($user_name,$password)
 	{
 			//die("asga");
@@ -71,14 +95,56 @@ class User_model extends CI_Model
   			
         if($query -> num_rows() > 0)
 		{	
+			// foreach ($query->result() as $row) {
+   //              $data[] = $row;
+   //          }
+   //          return $data;
 			$result=$query->result();
 			return  $result;
 		}
 		else
 		{
 			return false;
+			//$this->db->count_all("USERS");
 		}
 	}
+
+	//==========================================================
+
+	 public function fetch_data($limit) 
+	 {
+		$this -> db -> select('id,name,email,is_enabled');
+		$this -> db -> from('USERS');
+		$query = $this -> db -> get();
+  			
+        if($query -> num_rows() > 0)
+		{	
+			// foreach ($query->result() as $row) {
+   //              $data[] = $row;
+   //          }
+   //          return $data;
+			$result=$query->result();
+			return  $result;
+		}
+		else
+		{
+			return false;
+			//$this->db->count_all("USERS");
+		}
+	// 	$this->db->limit($limit);
+	// 	$this->db->where('id', $id);
+	// 	$query = $this->db->get("USERS");
+	// 	if ($query->num_rows() > 0)
+	// 	 {
+	// 		// foreach ($query->result() as $row) 
+	// 		// {
+	// 		// 	$data[] = $row;
+	// 		// }
+
+	// 		return $data;
+	// 	}
+	// 	return false;
+	 }
 	//==========================================================
 
 	public function add_user($user_data)

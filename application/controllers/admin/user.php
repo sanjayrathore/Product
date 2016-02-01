@@ -39,9 +39,10 @@
 
 		public function forget_password_process()
 		{
-			// if (count($_post) > 0) 
-			// {
-
+			$data['errors']="";
+			if (count($_POST) > 0) 
+			{
+					
 				$this->form_validation->set_rules('email', 'Email', 'trim|email|required');
 
 				if ( FALSE == $this->form_validation->run() )
@@ -52,6 +53,7 @@
 				{
 					$email = $this -> input -> post('email');
 					$result = $this -> User_model -> forget_password($email);
+					
 					if (false == $result) 
 					{
 					
@@ -62,35 +64,230 @@
 					$from_email = "sanjay.r@cisinlabs.com"; 
          			$to_email = $this->input->post('email');
 					
+					$random_password = $this->generate_rand_string();
 					
-					$this->load->library('email'); 
+					$id = $result['id'];
+					$user_data  = array(
+								'id' => $id,
+								'password'=>$random_password
+								 );
+
+					$results = $this->User_model->edit_process($user_data);
+					if (TRUE == $results)
+					{
+						
+						$config['protocol'] 	= 'smtp';
+						$config['smtp_host'] 	= "ssl://smtp.cisinlabs.com";
+
+						$config['smtp_user'] 	= "vikas.b@cisinlabs.com";
+						$config['smtp_pass'] 	= "fP6ZS6HD";
+
+
+						$config['smtp_port'] 	= 465;
+						$config['mailtype'] 	= 'html';
+						$config['charset'] 		= 'utf-8';
+						$config['newline'] = "\r\n";
+
+
+						$this->load->library('email',$config); 
    
-  			       	$this->email->from($from_email, 'cisinlabs'); 
-         			$this->email->to($to_email);
-         			$this->email->subject('Reset password'); 
-         			$this->email->message();
+	  			       	$this->email->from($from_email, 'cisinlabs'); 
+	         			$this->email->to($to_email);
+	         			$this->email->subject('Reset password'); 
 
-         			if($this->email->send()) 
-        			{
-        				$this->session->set_flashdata("email_sent","Email sent successfully."); 
-         			
-         			}
-         			else
-         			{
+	         			$message 	= '';
+						$message .= "Hi,";
+						$message .= "<br / > Unique code : " . $random_password;
+						$message .= "<br / ><br / > Thanks, <br /> ";
 
-         				$this->session->set_flashdata("email","Error in sending Email."); 
-         				$this->load->view('email_form'); 
+	         			$this->email->message($message);
+
+	         			if($this->email->send()) 
+	        			{
+	         				
+	        				redirect('admin/user/unique_code/'.$id);
+	         			
+	         			}
+	         			else
+	         			{
+
+	        				
+	         				$this->session->set_flashdata("email","Error in sending Email."); 
+	         				redirect('admin/user/forget_password');
+	         				 
+						}
+
 					}
-					echo $to_email;
-					die;
-				}
-				$this->load->view('admin/includes/header');
-				$this->load->view('admin/home/forget_password',$data);
-				$this->load->view('admin/includes/footer');
+					else
+					{
+						$this->session->set_flashdata('email', 'invalide UserName address');
+						redirect('admin/user/forget_password');
+					}
 
-			// }
+					
+					
+				}
+			}
+			$this->load->view('admin/includes/header');
+			$this->load->view('admin/home/forget_password',$data);
+			$this->load->view('admin/includes/footer');
+
+			
 			
 		}
+
+		//======================================================
+
+		/**
+		* @function :  we used this function for unique code page
+		* @parametere : 
+		* @parametere : 
+		*/
+
+		public function unique_code($id)
+
+		{
+			
+			$data['results']  = array('id' => $id);
+			$this->load->view('admin/includes/header');
+			$this->load->view('admin/home/unique_code',$data);
+			$this->load->view('admin/includes/footer');
+		}
+
+		//======================================================
+
+		/**
+		* @function :  we used this function for check the unique code
+		* @parametere : 
+		* @parametere : 
+		*/
+
+		public function check_unique_code()
+		{
+			$id = $this->input->post('id');
+			$this->form_validation->set_rules('uniquecode', 'Uniquecode', 'trim|required');	
+			
+			if ( FALSE == $this->form_validation->run() )
+			{	
+				$data['errors'] = validation_errors();
+			}
+			else
+			{
+				
+				$password = $this->input -> post('uniquecode');
+
+				
+				$result = $this->User_model->check_unique_code($id,$password);
+
+				if (empty($result)) 
+				{
+					$this->session->set_flashdata('uniquecode', 'invalide Unique code');
+					redirect('admin/user/unique_code/'.$id);
+				}
+				else
+				{
+					
+					redirect('admin/user/change_password/'.$id);
+				}
+
+			}
+			$data['results']=  array('id' => $id);
+			$this->load->view('admin/includes/header');
+			$this->load->view('admin/home/unique_code',$data);
+			$this->load->view('admin/includes/footer');
+		}
+
+		//======================================================
+
+		/**
+		* @function :  we used this function for change password page
+		* @parametere :$id means the user id 
+		* @parametere : 
+		*/
+
+		public function change_password($id)
+		{
+			$data['results']  = array('id' => $id);
+
+			$this->load->view('admin/includes/header');
+			$this->load->view('admin/home/change_password',$data);
+			$this->load->view('admin/includes/footer');
+		}
+
+		//======================================================
+
+		/**
+		* @function :  we used this function for change password process
+		* @parametere : 
+		* @parametere : 
+		*/
+
+		public function change_password_process()
+		{	
+			$id = $this->input->post('id');
+
+			$this->form_validation->set_rules('newpassword', 'NewPassword', 'trim|required');	
+			$this->form_validation->set_rules('confirmpassword', 'ConfirmPassword', 'trim|required');
+			
+			if ( FALSE == $this->form_validation->run() )
+			{	
+				$data['errors'] = validation_errors();
+			}
+			else
+			{
+				$newpassword = $this->input->post('newpassword');
+				$confirmpassword = $this ->input->post('confirmpassword');
+				$user_data  = array('id' =>$id ,
+									'password'=> $newpassword
+									 );
+				if ($newpassword == $confirmpassword) 
+				{
+					$results = $this->User_model->edit_process($user_data);
+					if (TRUE == $results)
+					{
+						redirect('admin/home/index');
+					}
+					else
+					{
+						$this->session->set_flashdata('confirmpassword', 'Password is not change');
+						redirect('admin/user/change_password/'.$id);
+					}
+				}
+				else
+				{
+					$this->session->set_flashdata('confirmpassword', 'NewPassword and confirmpassword is missmatch');
+					redirect('admin/user/change_password/'.$id);
+				}
+			}
+
+			$data['results']  = array('id' => $id);
+
+			$this->load->view('admin/includes/header');
+			$this->load->view('admin/home/change_password',$data);
+			$this->load->view('admin/includes/footer');
+		}
+
+		//======================================================
+
+		/**
+		* @function :  we used this function for genrate the random string
+		* @parametere : 
+		* @parametere : 
+		*/
+
+		public function generate_rand_string($len = 8) 
+		{
+        	$random = '';
+	        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	        
+	        $charactersLength = strlen($characters);
+	        for ($i = 0; $i < $len; $i++) 
+	        {
+	            $random .= $characters[rand(0, $charactersLength - 1)];
+	        }
+	       
+	        return $random;
+    	}
 
 		//======================================================
 
@@ -402,16 +599,50 @@
 
 		public function user_table()
 		{
+				// $this->load->library('pagination');
+				// $config = array();
+				// $config["base_url"] = base_url('admin/user/user_table');
+				// //$total_row = $this->pagination_model->record_count();
+				// $result = $this->User_model->user_list();
+				// $data["results"] = $result;
+				// $config["total_rows"] = count($result);
+				// $config["per_page"] = 1;
+				// $config['use_page_numbers'] = TRUE;
+				// $config['num_links'] = $result;
+				// //$config['cur_tag_open'] = '&nbsp;<a class="current">';
+				// //$config['cur_tag_close'] = '</a>';
+				// $config['next_link'] = 'Next';
+				// $config['prev_link'] = 'Previous';
+
+				//  $this->pagination->initialize($config);
+				
+				//  if($this->uri->segment(3))
+				//  {
+				//  	$page = ($this->uri->segment(3)) ;
+				//  }
+				//  else
+				//  {
+				// 	$page = 1;
+				//  }
+
+				// $data["results"] = $this->User_model->fetch_data($config["per_page"], $page);
+				
+				// $str_links = $this->pagination->create_links();
+				
+				// $data["links"] = explode('&nbsp;',$str_links );
 				
 				$result = $this->User_model->user_list();
+				
 				$data['results'] = $result;
 				if (false == $result) 
 				{
 					echo "No Record Found";
 					die;
 				}
-				echo $this->load->view('admin/user/user_table', $data, true);
-				die;
+				  // echo count($result);
+				  // die;
+				 echo $this->load->view('admin/user/user_table', $data, true);
+				 die;
 		
 		}
 

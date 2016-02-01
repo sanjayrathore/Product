@@ -235,6 +235,68 @@ $(document).ready(function(){
 
 	//==========================================================
 
+	$("#forget_password").validate
+	({
+		rules:
+		{
+			email:
+			{
+				required : true,
+				email	 : 	true
+			}
+		}
+		
+	});
+
+	//==========================================================
+
+	$("#unique_code").validate
+	({
+		rules:
+		{
+			uniquecode:
+			{
+				required : true
+				
+			}
+		}
+	});
+
+	//==========================================================
+
+	$("#change_password").validate
+	({
+		rules:
+		{
+			newpassword:
+			{
+				required : true,
+				pattern		: 	true,
+				minlength	: 	8,
+				confirmpassword:{
+    							equalTo: "#newpassword"
+      							}
+			},
+			confirmpassword:
+			{
+				required:true,
+				
+			}
+		},
+			
+		message:
+		{
+			newpassword:
+			{
+				
+				minlength: "The password  length must be more then 8 ",
+				
+			}
+		}
+	});
+
+	//==========================================================
+
 	jQuery.validator.addMethod("numericpattern", function(value, element){
     return this.optional(element) || /^[0-1]+$/.test(value);
     	},
