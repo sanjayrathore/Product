@@ -31,10 +31,10 @@
                     <a href="#"><i class="fa fa-dashboard fa-fw"></i>Product</a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="#">Product List</a>
+                            <a href="<?php echo site_url("admin/product/product_list");?>">Product List</a>
                         </li>
                         <li>
-                            <a href="#">Product Add</a>
+                            <a href="<?php echo site_url("admin/product/add_product");?>">Product Add</a>
                         </li>
                     </ul>
                 </li>

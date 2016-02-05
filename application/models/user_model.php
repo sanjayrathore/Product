@@ -95,12 +95,12 @@ class User_model extends CI_Model
   			
         if($query -> num_rows() > 0)
 		{	
-			// foreach ($query->result() as $row) {
-   //              $data[] = $row;
-   //          }
-   //          return $data;
-			$result=$query->result();
-			return  $result;
+			foreach ($query->result() as $row) {
+                $data[] = $row;
+            }
+            return $data;
+			// $result=$query->result();
+			// return  $result;
 		}
 		else
 		{
@@ -111,10 +111,11 @@ class User_model extends CI_Model
 
 	//==========================================================
 
-	 public function fetch_data($limit) 
+	 public function fetch_data($limit,$offset) 
 	 {
 		$this -> db -> select('id,name,email,is_enabled');
 		$this -> db -> from('USERS');
+		$this -> db -> limit( $limit, $offset);
 		$query = $this -> db -> get();
   			
         if($query -> num_rows() > 0)

@@ -9,6 +9,7 @@
 			parent::__construct();
 
 			$this->load->model('User_model');
+			$this->load->library('Ajax_pagination');
 
 			
 			
@@ -582,11 +583,42 @@
 		{
 			is_user_login();	
 			
+			//  $this->load->library('pagination');
+		
+			$config["base_url"] = base_url('admin/user/user_table');
+			
+			$result = $this->User_model->user_list();
+				
+			$config["total_rows"] = count($result);
+			$config["per_page"] = 1;
+			$config['use_page_numbers'] = TRUE;
+			$config['div']         = 'usertable-div';
+			// // //$config['num_links'] = 2;
+			$config['first_link'] 	= 'FIRST';
+	     	$config['last_link'] 	= 'LAST';
+			
+			$config['next_link'] = 'Next';
+			$config['prev_link'] = 'Previous';
+	      	$config['uri_segment']	=4;
+			// $this->pagination->initialize($config);
+			$this->ajax_pagination->initialize($config);
+			
+			
+			$page = 0;
+			
+
+			$data["results"] = $this->User_model->fetch_data($config["per_page"], $page);
+				
+			
+				  
+				 
+
 			$this->load->view('admin/includes/header');
 			$this->load->view('admin/includes/sidebar_list');
-			$this->load->view('admin/user/user_list');	
-			$this->load->view('admin/includes/footer');
+			$this->load->view('admin/user/user_list',$data);	
 			
+			$this->load->view('admin/includes/footer');
+				
 		}
 
 		//======================================================
@@ -599,51 +631,53 @@
 
 		public function user_table()
 		{
-				// $this->load->library('pagination');
-				// $config = array();
-				// $config["base_url"] = base_url('admin/user/user_table');
-				// //$total_row = $this->pagination_model->record_count();
-				// $result = $this->User_model->user_list();
-				// $data["results"] = $result;
-				// $config["total_rows"] = count($result);
-				// $config["per_page"] = 1;
-				// $config['use_page_numbers'] = TRUE;
-				// $config['num_links'] = $result;
-				// //$config['cur_tag_open'] = '&nbsp;<a class="current">';
-				// //$config['cur_tag_close'] = '</a>';
-				// $config['next_link'] = 'Next';
-				// $config['prev_link'] = 'Previous';
+			$this->load->library('pagination');
+			
+			//$config = array();
+			
+			$config["base_url"] = base_url('admin/user/user_table');
+				
+			$result = $this->User_model->user_list();
+				
+			$config["total_rows"] = count($result);
+			$config["per_page"] = 1;
+			$config['use_page_numbers'] = TRUE;
+			
+			$config['div']         = 'usertable-div';
+				//$config['num_links'] = 1;
+			
+			$config['first_link'] 	= 'FIRST';
+	    	$config['last_link'] 	= 'LAST';
+				
+				//$config['cur_tag_open'] = '&nbsp;<a >';
+				//$config['cur_tag_close'] = '</a>';
+			$config['next_link'] = 'Next';
+			$config['prev_link'] = 'Previous';
+			
+			$config['uri_segment']=4;
 
-				//  $this->pagination->initialize($config);
-				
-				//  if($this->uri->segment(3))
-				//  {
-				//  	$page = ($this->uri->segment(3)) ;
-				//  }
-				//  else
-				//  {
-				// 	$page = 1;
-				//  }
+			//$this->pagination->initialize($config);
+			
+			$this->ajax_pagination->initialize($config);	
+			
+			if($this->input->post('page'))
+			{
 
-				// $data["results"] = $this->User_model->fetch_data($config["per_page"], $page);
+			  	$pagenum = ($this->input->post('page'));
+			  	$page = $pagenum ;
+			  	// echo $page;
+			  	// die;
+			}
+			else
+			{		
+				 
+				$page = 0;
+			}
+			
+			$data["results"] = $this->User_model->fetch_data($config["per_page"], $page);
 				
-				// $str_links = $this->pagination->create_links();
-				
-				// $data["links"] = explode('&nbsp;',$str_links );
-				
-				$result = $this->User_model->user_list();
-				
-				$data['results'] = $result;
-				if (false == $result) 
-				{
-					echo "No Record Found";
-					die;
-				}
-				  // echo count($result);
-				  // die;
-				 echo $this->load->view('admin/user/user_table', $data, true);
-				 die;
-		
+			$this->load->view('admin/user/user_table', $data, false);
+			
 		}
 
 

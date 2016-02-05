@@ -28,7 +28,7 @@
                                     
                                     </span>
                                     
-                                    <span name="enab_dis" id="dis_<?php echo $row->id;?>">
+                                    <span class="enab_dise" id="dis_<?php echo $row->id;?>">
                                         
                                         <img src="<?php echo base_url(); ?>assets/images/disable.png" >
 
@@ -52,7 +52,7 @@
                             <td>
                                 <a href="javascript:void(0)" class="disable_button" data-id="<?php echo $row->id;?>" data-url="<?php echo site_url('admin/product_categories/disable_pro_categories');?>">
                                     
-                                    <span  name = "enab_dis" id="en_<?php echo $row->id;?>">
+                                    <span  class = "enab_dise" id="en_<?php echo $row->id;?>">
                                     
                                         <img src="<?php echo base_url(); ?>assets/images/enable.png" >
                                     

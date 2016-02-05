@@ -1,25 +1,41 @@
 $(document).ready(function(){
 
-	showusertable();
-
-	function showusertable()
+		//show_User_Table();
+$("a").find(".enab_dis").hide();
+	function show_User_Table()
 	{	//alert("asd");
+		var j;
+		var url1 = [];
+		var url = window.location.href.split('/');
+		//var url1 = url.split('/');
+		for (var i = 0; i < url.length; i++) {
+			  url1[i] = url[i];
+			  j= url1[i];
+		};
+		if (j == 't') 
+		{
+			j=0;
+		};
+		//alert(j);
 		$.ajax({
 		        type: "POST",
 		        url: usertableurl,
-		      
+		      	dataType: 'html',
+		      	data : 'page='+j,
 		        success: function(response) {
 
-		        	$("#usertable-div").html(response);
-		        	$("[name='enab_dis']").hide();
+		        	
+		        	$("div").find("#usertable-div").html(response);
+		        	$("a").find(".enab_dis").hide();
+		        	//$(".enab_dis").hide();
 
 				}        	
 		});
 	}
 	//==========================================================
-	show_pro_cat_table();
+	show_Pro_Cat_Table();
 
-	function show_pro_cat_table()
+	function show_Pro_Cat_Table()
 	{
 		//alert(pro_cat_tableurl);
 		$.ajax({
@@ -28,18 +44,40 @@ $(document).ready(function(){
 		      
 		        success: function(response) {
 
-		        	$("#product-categories-table-div").html(response);
-		        	$("[name='enab_dis']").hide();
+		        	$("div").find("#product-categories-table-div").html(response);
+		        	$("a").find(".enab_dise").hide();
 
 				}        	
 		});
 	}
+
+	//==========================================================
+	
+	show_Pro_Table();
+
+	function show_Pro_Table()
+	{
+		//alert(pro_cat_tableurl);
+		$.ajax({
+		        type: "POST",
+		        url: pro_tableurl,
+		      
+		        success: function(response) {
+
+		        	$("div").find("#product-table-div").html(response);
+		        	$("a").find(".enab_dise").hide();
+
+				}        	
+		});
+	}
+
 	//==========================================================
 	
 	$("#reg_reset").click(function(){
 		
 		$("#reg_form").trigger("reset");
 		$("#pro_categories_form").trigger("reset");
+		$("#product_form").trigger("reset");
 		
 	});
 
@@ -217,6 +255,36 @@ $(document).ready(function(){
 
 	//==========================================================
 
+	$("#product_form").validate
+	({
+		rules:
+		{
+			title:
+			{
+				required : true
+			},
+			price:
+			{
+				required : true
+			},
+			description:
+			{
+				required : true
+			},
+			imagefile:
+			{
+				required : true
+			},
+			pro_categoriesid:
+			{
+				required : true
+			}
+
+		}
+	});
+
+	//==========================================================
+
 	$("#pro_categories_editform").validate
 	({
 		rules:
@@ -226,6 +294,7 @@ $(document).ready(function(){
 				required : true
 
 			},
+			
 			description:
 			{
 				required : true
@@ -233,6 +302,27 @@ $(document).ready(function(){
 		}
 	});
 
+	//==========================================================
+
+	$("#pro_editform").validate
+	({
+		rules:
+		{
+			title:
+			{
+				required : true
+
+			},
+			price:
+			{
+				required : true
+			},
+			description:
+			{
+				required : true
+			}
+		}
+	});
 	//==========================================================
 
 	$("#forget_password").validate
@@ -414,7 +504,7 @@ $(document).ready(function(){
 
     //==========================================================
 
-    $("[name='enab_dis']").hide();
+   // $(".enab_dis").hide();
 
     $(document).on("click", ".disable_button", function(){
    			
